@@ -1,0 +1,35 @@
+<!-- filepath: /Users/srijansahay/Developer/PIEDS/mvp/templates/marketplace/index.html -->
+{% extends "basefiles/base.html" %}
+{% load static %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block content %}
+<div class="hero-section d-flex align-items-center">
+    <div class="custom-container">
+        <div class="hero-text">
+            <h1>Decentralized Carbon Credit Marketplace</h1>
+            <p>Welcome to the Decentralized Carbon Credit Marketplace. Here you can buy and sell carbon credits in a decentralized manner.</p>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/hero.jpg' %}" alt="Hero Image" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<h2 class="key-features-heading">Our Key Features</h2>
+
+<div class="info-section">
+    <div class="info-container">
+        <div class="info-box">
+            <h2>Transparency</h2>
+            <p>Our marketplace ensures complete transparency in all transactions, leveraging blockchain technology to provide a secure and immutable record of all activities.</p>
+        </div>
+        <div class="info-box">
+            <h2>Inclusivity</h2>
+            <p>We believe in inclusivity and strive to make our marketplace accessible to everyone, providing equal opportunities for all participants.</p>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

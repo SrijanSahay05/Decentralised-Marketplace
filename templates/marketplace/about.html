@@ -1,0 +1,45 @@
+<!-- filepath: /Users/srijansahay/Developer/PIEDS/mvp/templates/marketplace/about.html -->
+{% extends "basefiles/base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="about-section hero-section">
+    <div class="custom-container">
+        <div class="hero-text">
+            <h1>About Us</h1>
+            <p>Welcome to the Decentralized Carbon Credit Marketplace. Our mission is to provide a transparent and inclusive platform for buying and selling carbon credits.</p>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/about-hero.jpg' %}" alt="About Us Image" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<div class="info-section">
+    <div class="info-container">
+        <div class="info-box">
+            <h2>Our Mission</h2>
+            <p>Our mission is to create a transparent and inclusive marketplace for carbon credits, leveraging blockchain technology to ensure secure and immutable transactions.</p>
+        </div>
+        <div class="info-box">
+            <h2>Our Vision</h2>
+            <p>We envision a world where carbon credits are easily accessible to everyone, promoting sustainability and environmental responsibility.</p>
+        </div>
+    </div>
+</div>
+
+<div class="info-section">
+    <div class="info-container">
+        <div class="info-box">
+            <h2>Our Values</h2>
+            <p>We value transparency, inclusivity, and sustainability. Our platform is designed to uphold these values in every transaction.</p>
+        </div>
+        <div class="info-box">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or need assistance, please feel free to contact us at support@carbonmarketplace.com.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

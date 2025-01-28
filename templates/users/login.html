@@ -1,0 +1,46 @@
+<!-- filepath: /Users/srijansahay/Developer/PIEDS/mvp/templates/marketplace/index.html -->
+{% extends "basefiles/base.html" %}
+{% load static %}
+
+{% block title %}SignUp Page{% endblock %}
+
+{% block content %}
+<div class="hero-section d-flex align-items-center">
+    <div class="custom-container">
+        <div class="hero-text">
+            <h1><center>Login</center></h1>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control bg-black text-white" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control bg-black text-white" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+            </form>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/hero.jpg' %}" alt="Hero Image" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<h2 class="key-features-heading">Our Key Features</h2>
+
+<div class="info-section">
+    <div class="info-container">
+        <div class="info-box">
+            <h2>Transparency</h2>
+            <p>Our marketplace ensures complete transparency in all transactions, leveraging blockchain technology to provide a secure and immutable record of all activities.</p>
+        </div>
+        <div class="info-box">
+            <h2>Inclusivity</h2>
+            <p>We believe in inclusivity and strive to make our marketplace accessible to everyone, providing equal opportunities for all participants.</p>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

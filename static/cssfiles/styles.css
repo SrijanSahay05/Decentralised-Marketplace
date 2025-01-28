@@ -1,0 +1,135 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0); /* Set body color to grey */
+    color: white; /* Set text color to white */
+}
+main {
+    flex: 1;
+}
+.footer {
+    position: relative;
+    background-color: black;
+    bottom: 0;
+    width: 100%;
+}
+.navbar {
+    background-color: transparent !important;
+}
+.navbar-light .navbar-brand {
+    color: white; /* Set navbar-brand text color to white */
+    font-size: 1.5rem; /* Increase navbar-brand text size */
+}
+.navbar-light .navbar-nav .nav-link {
+    color: white; /* Set nav link text color to white */
+    border-radius: 15px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1.2rem; /* Increase nav link text size */
+}
+.navbar-light .navbar-nav .nav-link:hover {
+    background-color: grey;
+    color: white;
+}
+.navbar-light .navbar-nav .nav-link:visited {
+    color: white; /* Set visited link text color to white */
+}
+.navbar-light .navbar-nav .dropdown-toggle:hover {
+    background-color: transparent; /* Keep the dropdown toggle background transparent */
+    color: white; /* Keep the dropdown toggle text color white */
+}
+.dropdown-menu {
+    background-color: white;
+    border-radius: 15px;
+}
+.dropdown-item {
+    color: black;
+    border-radius: 15px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dropdown-item:hover {
+    background-color: grey;
+    color: white;
+}
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    height: 100vh; /* Make hero section full height */
+}
+.custom-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 50px; /* Add padding to the sides */
+}
+.hero-text {
+    flex: 1;
+    padding-right: 50px; /* Add padding to the right */
+}
+.hero-text h1 {
+    font-size: 5rem; /* Increase the size of the h1 text */
+}
+.hero-image {
+    flex: 1;
+    text-align: right;
+    padding-left: 50px; /* Add padding to the left */
+}
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the div without distortion */
+    border-radius: 15px;
+}
+.key-features-heading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 50px 0;
+    padding-top: 15vh;
+}
+.info-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    background-color: #000000; /* Cream white background color */
+}
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 50px; /* Add padding to the sides */
+}
+.info-box {
+    flex: 1;
+    padding: 40px;
+    margin: 40px; /* Add padding between the boxes */
+    background-color: #f5ede2; /* Off-white background color */
+    color: #000; /* Black text color */
+    border-radius: 15px; /* Rounded corners */
+    text-align: center;
+    height: 25vh;
+    width: 25vh;
+}
+.info-box h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.info-box p {
+    font-size: 1rem;
+}
+
+/* Add styles for form fields */
+.form-control {
+    background-color: #333; /* Dark grey background color */
+    color: white; /* White text color */
+    border: 1px solid #555; /* Slightly lighter grey border */
+}

@@ -1,272 +1,82 @@
 from web3 import Web3
 import json
 
-# Connect to local Ethereum node
-web3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+class CarbonCreditMarketplace:
+    def __init__(self):
+        self.web3 = Web3(Web3.HTTPProvider('HTTP://172.17.80.240:6969'))
+        self.contract_address = '0xa5523a57c4fCEfB43eB48a65985A26FD01Bfa346'  # Replace with your contract address
+        with open('CarbonCreditMarketplaceABI.json') as f:
+            self.contract_abi = json.load(f)
+        self.contract = self.web3.eth.contract(address=self.contract_address, abi=self.contract_abi)
 
-# Check if connected to the blockchain
-if not web3.is_connected():
-    raise Exception("Unable to connect to the blockchain")
+    def mint_credit(self, project_name: str, amount: int, price: int, sender_address: str, private_key: str):
+        try:
+            tx = self.contract.functions.mintCredit(project_name, amount, price).build_transaction({
+                'from': sender_address,
+                'nonce': self.web3.eth.get_transaction_count(sender_address),
+                'gas': 300000,
+                'gasPrice': self.web3.to_wei('5', 'gwei')
+            })
+            
+            # Sign and send the transaction
+            signed_tx = self.web3.eth.account.sign_transaction(tx, private_key)
+            tx_hash = self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-print("Connected to blockchain")
+            return self.web3.to_hex(tx_hash)
+        except Exception as e:
+            return str(e)
 
-# Contract address and ABI (replace with your deployed contract details)
-contract_address = '0xd6dc9c963Ec994FB1e0F37dFa0f28AA5b026eCff'
-abi = [
-	{
-		"anonymous": False,
-		"inputs": [
-			{
-				"indexed": False,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": False,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": False,
-				"internalType": "string",
-				"name": "projectName",
-				"type": "string"
-			},
-			{
-				"indexed": False,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "CreditMinted",
-		"type": "event"
-	},
-	{
-		"anonymous": False,
-		"inputs": [
-			{
-				"indexed": False,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": False,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": False,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
-		"name": "CreditTransferred",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "projectName",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "mintCredit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
-		"name": "transferCredit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "credits",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "projectName",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isAvailable",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "listAllCredits",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "projectName",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAvailable",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct CarbonCredits.CarbonCredit[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "nextCreditId",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
-contract = web3.eth.contract(address=contract_address, abi=abi)
+    def list_credit(self, credit_id: int, price: int, sender_address: str, private_key: str):
+        try:
+            tx = self.contract.functions.listCredit(credit_id, price).build_transaction({
+                'from': sender_address,
+                'nonce': self.web3.eth.get_transaction_count(sender_address),
+                'gas': 300000,
+                'gasPrice': self.web3.to_wei('5', 'gwei')
+            })
+            
+            # Sign and send the transaction
+            signed_tx = self.web3.eth.account.sign_transaction(tx, private_key)
+            tx_hash = self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-if contract:
-    print("Contract loaded successfully!")
-else:
-    print("Failed to load the contract.")
+            return self.web3.to_hex(tx_hash)
+        except Exception as e:
+            return str(e)
 
-# Example user account setup (replace with actual private key and account)
-private_key = "0x77b286ba815e09a86641f10535c376b874a6250b87f1977829af82af6f5cca3e"
-account = web3.eth.account.from_key(private_key)
+    def buy_credit(self, credit_id: int, price: int, buyer_address: str, private_key: str):
+        try:
+            tx = self.contract.functions.buyCredit(credit_id).build_transaction({
+                'from': buyer_address,
+                'value': self.web3.to_wei(price, 'wei'),
+                'nonce': self.web3.eth.get_transaction_count(buyer_address),
+                'gas': 300000,
+                'gasPrice': self.web3.to_wei('5', 'gwei')
+            })
+            
+            # Sign and send the transaction
+            signed_tx = self.web3.eth.account.sign_transaction(tx, private_key)
+            tx_hash = self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-print(f"Using account: {account.address}")
+            return self.web3.to_hex(tx_hash)
+        except Exception as e:
+            return str(e)
 
-# Helper to send transactions
-def send_transaction(transaction):
-    signed_txn = web3.eth.account.sign_transaction(transaction, private_key)
-    txn_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    txn_receipt = web3.eth.wait_for_transaction_receipt(txn_hash)
-    print(f"Transaction successful: {txn_receipt.transactionHash.hex()}")
+# Test function
+def test_mint_and_list_credit():
+    blockchain = CarbonCreditMarketplace()
+    
+    # Account details
+    sender_address = '0x8443cdbe2334C4e111C3b0eA5b8Cd904c3E473cc'
+    sender_private_key = '0x0cd00e74ffdbb95554ab6a2814047e58bc7c857b22bccb5cdda14d39776876cd'
+    
+    # Mint a new credit
+    mint_tx_hash = blockchain.mint_credit("Test Project", 1000, 500, sender_address, sender_private_key)
+    print(f"Mint transaction hash: {mint_tx_hash}")
+    
+    # List the minted credit
+    credit_id = 0  # Assuming this is the first credit minted
+    list_tx_hash = blockchain.list_credit(credit_id, 500, sender_address, sender_private_key)
+    print(f"List transaction hash: {list_tx_hash}")
 
-# Function to mint credits
-def mint_credit(project_name, volume, price):
-    nonce = web3.eth.get_transaction_count(account.address)
-    transaction = contract.functions.mintCredit(project_name, volume, price).build_transaction({
-        'chainId': web3.eth.chain_id,
-        'gas': 300000,
-        'gasPrice': web3.to_wei('10', 'gwei'),
-        'nonce': nonce
-    })
-    send_transaction(transaction)
-
-# Function to transfer credit
-def transfer_credit(credit_id, to_address):
-    nonce = web3.eth.get_transaction_count(account.address)
-    transaction = contract.functions.transferCredit(credit_id, to_address).build_transaction({
-        'chainId': web3.eth.chain_id,
-        'gas': 300000,
-        'gasPrice': web3.to_wei('10', 'gwei'),
-        'nonce': nonce
-    })
-    send_transaction(transaction)
-
-# Function to buy credit
-def buy_credit(credit_id, payment_amount):
-    nonce = web3.eth.get_transaction_count(account.address)
-    transaction = contract.functions.buyCredit(credit_id).build_transaction({
-        'chainId': web3.eth.chain_id,
-        'gas': 300000,
-        'gasPrice': web3.to_wei('10', 'gwei'),
-        'nonce': nonce,
-        'value': payment_amount
-    })
-    send_transaction(transaction)
-
-# Function to burn expired credits
-def burn_expired_credit(credit_id):
-    nonce = web3.eth.get_transaction_count(account.address)
-    transaction = contract.functions.burnExpiredCredits(credit_id).build_transaction({
-        'chainId': web3.eth.chain_id,
-        'gas': 300000,
-        'gasPrice': web3.to_wei('10', 'gwei'),
-        'nonce': nonce
-    })
-    send_transaction(transaction)
-
-def list_all_credits():
-    credits = contract.functions.listAllCredits().call()
-    for credit in credits:
-        print("ID:", credit[0], "Owner:", credit[1], "Project:", credit[2], "Volume:", credit[3], "Price:", credit[4], "Expiry:", credit[5], "Circulated:", credit[6])
-
-# Example usage
-list_all_credits()
+# Run the test function
+test_mint_and_list_credit()

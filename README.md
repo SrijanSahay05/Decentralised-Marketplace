@@ -20,8 +20,8 @@ The project implements a simple carbon credit marketplace where users can:
 ## Technical Stack
 
 - Smart Contract: Solidity
-- Frontend: React/Next.js
-- Web3 Integration: ethers.js
+- Frontend: -
+- Web3 Integration: -
 
 ## Future Development Plans
 
